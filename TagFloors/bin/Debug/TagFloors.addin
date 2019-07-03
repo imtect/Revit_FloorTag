@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>External Tool</Name>
+    <Assembly>E:\TagFloors(1)\TagFloors\TagFloors\bin\Debug\TagFloors.dll</Assembly>
+    <ClientId>903097f3-2734-41ec-9b68-633688aa4295</ClientId>
+    <FullClassName>TagFloors.Ribbon</FullClassName>
+    <VendorId>ADSK</VendorId>
+    <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>
+  </AddIn>
+  
+</RevitAddIns>
