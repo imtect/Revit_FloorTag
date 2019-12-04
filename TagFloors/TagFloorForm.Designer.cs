@@ -41,6 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tableName = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.copyParamBtn = new System.Windows.Forms.Button();
             this.RevitConnectParam = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -63,14 +64,20 @@
             this.LevelTxt = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.Floorreappearing = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.Floordetect = new System.Windows.Forms.Button();
             this.OpenExcelBn = new System.Windows.Forms.Button();
             this.excel_Path = new System.Windows.Forms.TextBox();
             this.WriteDatabyExcel = new System.Windows.Forms.Button();
+            this.SystemIDBtn = new System.Windows.Forms.Button();
+            this.IDText = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.ParamtersText = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.DestText = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.ParamCombineBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -169,9 +176,9 @@
             // ParamTrans
             // 
             this.ParamTrans.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ParamTrans.Location = new System.Drawing.Point(6, 346);
+            this.ParamTrans.Location = new System.Drawing.Point(239, 346);
             this.ParamTrans.Name = "ParamTrans";
-            this.ParamTrans.Size = new System.Drawing.Size(457, 35);
+            this.ParamTrans.Size = new System.Drawing.Size(224, 35);
             this.ParamTrans.TabIndex = 26;
             this.ParamTrans.Text = "参数转移";
             this.ParamTrans.UseVisualStyleBackColor = false;
@@ -198,6 +205,15 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.ParamCombineBtn);
+            this.panel2.Controls.Add(this.DestText);
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.ParamtersText);
+            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.IDText);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.SystemIDBtn);
+            this.panel2.Controls.Add(this.copyParamBtn);
             this.panel2.Controls.Add(this.RevitConnectParam);
             this.panel2.Controls.Add(this.label17);
             this.panel2.Controls.Add(this.label16);
@@ -222,8 +238,6 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.label11);
-            this.panel2.Controls.Add(this.label12);
-            this.panel2.Controls.Add(this.label13);
             this.panel2.Controls.Add(this.Floorreappearing);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.Floordetect);
@@ -237,8 +251,19 @@
             this.panel2.Controls.Add(this.WriteData);
             this.panel2.Location = new System.Drawing.Point(2, 90);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(471, 534);
+            this.panel2.Size = new System.Drawing.Size(471, 546);
             this.panel2.TabIndex = 14;
+            // 
+            // copyParamBtn
+            // 
+            this.copyParamBtn.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.copyParamBtn.Location = new System.Drawing.Point(6, 346);
+            this.copyParamBtn.Name = "copyParamBtn";
+            this.copyParamBtn.Size = new System.Drawing.Size(224, 35);
+            this.copyParamBtn.TabIndex = 49;
+            this.copyParamBtn.Text = "参数复制";
+            this.copyParamBtn.UseVisualStyleBackColor = false;
+            this.copyParamBtn.Click += new System.EventHandler(this.copyParamBtn_Click);
             // 
             // RevitConnectParam
             // 
@@ -454,34 +479,12 @@
             this.label11.TabIndex = 8;
             this.label11.Text = "修改的楼层：";
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.Location = new System.Drawing.Point(15, 469);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(423, 12);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "已将有重复嫌疑的板id导出至桌面Reappearing文件（精确精度为0.01）";
-            this.label12.Click += new System.EventHandler(this.label13_Click);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.Location = new System.Drawing.Point(15, 397);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(304, 12);
-            this.label13.TabIndex = 8;
-            this.label13.Text = "有问题的楼板元素id导出值桌面FloorDetect文件：";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
-            // 
             // Floorreappearing
             // 
             this.Floorreappearing.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Floorreappearing.Location = new System.Drawing.Point(6, 493);
+            this.Floorreappearing.Location = new System.Drawing.Point(239, 387);
             this.Floorreappearing.Name = "Floorreappearing";
-            this.Floorreappearing.Size = new System.Drawing.Size(457, 35);
+            this.Floorreappearing.Size = new System.Drawing.Size(224, 35);
             this.Floorreappearing.TabIndex = 26;
             this.Floorreappearing.Text = "楼板查重";
             this.Floorreappearing.UseVisualStyleBackColor = false;
@@ -500,9 +503,9 @@
             // Floordetect
             // 
             this.Floordetect.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Floordetect.Location = new System.Drawing.Point(5, 421);
+            this.Floordetect.Location = new System.Drawing.Point(6, 387);
             this.Floordetect.Name = "Floordetect";
-            this.Floordetect.Size = new System.Drawing.Size(457, 35);
+            this.Floordetect.Size = new System.Drawing.Size(224, 35);
             this.Floordetect.TabIndex = 26;
             this.Floordetect.Text = "楼板标记检测";
             this.Floordetect.UseVisualStyleBackColor = false;
@@ -537,11 +540,87 @@
             this.WriteDatabyExcel.UseVisualStyleBackColor = false;
             this.WriteDatabyExcel.Click += new System.EventHandler(this.WriteDatabyExcel_Click);
             // 
+            // SystemIDBtn
+            // 
+            this.SystemIDBtn.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.SystemIDBtn.Location = new System.Drawing.Point(238, 428);
+            this.SystemIDBtn.Name = "SystemIDBtn";
+            this.SystemIDBtn.Size = new System.Drawing.Size(224, 35);
+            this.SystemIDBtn.TabIndex = 50;
+            this.SystemIDBtn.Text = "系统ID写入";
+            this.SystemIDBtn.UseVisualStyleBackColor = false;
+            this.SystemIDBtn.Click += new System.EventHandler(this.SystemIDBtn_Click);
+            // 
+            // IDText
+            // 
+            this.IDText.Location = new System.Drawing.Point(63, 436);
+            this.IDText.Name = "IDText";
+            this.IDText.Size = new System.Drawing.Size(167, 21);
+            this.IDText.TabIndex = 52;
+            this.IDText.TextChanged += new System.EventHandler(this.IDText_TextChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(14, 441);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 12);
+            this.label7.TabIndex = 51;
+            this.label7.Text = "参数1：";
+            // 
+            // ParamtersText
+            // 
+            this.ParamtersText.Location = new System.Drawing.Point(63, 469);
+            this.ParamtersText.Name = "ParamtersText";
+            this.ParamtersText.Size = new System.Drawing.Size(167, 21);
+            this.ParamtersText.TabIndex = 54;
+            this.ParamtersText.TextChanged += new System.EventHandler(this.ParamtersText_TextChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label12.Location = new System.Drawing.Point(14, 474);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(51, 12);
+            this.label12.TabIndex = 53;
+            this.label12.Text = "参数1：";
+            // 
+            // DestText
+            // 
+            this.DestText.Location = new System.Drawing.Point(293, 471);
+            this.DestText.Name = "DestText";
+            this.DestText.Size = new System.Drawing.Size(167, 21);
+            this.DestText.TabIndex = 56;
+            this.DestText.TextChanged += new System.EventHandler(this.DestText_TextChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label13.Location = new System.Drawing.Point(244, 476);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(51, 12);
+            this.label13.TabIndex = 55;
+            this.label13.Text = "参数2：";
+            // 
+            // ParamCombineBtn
+            // 
+            this.ParamCombineBtn.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.ParamCombineBtn.Location = new System.Drawing.Point(11, 496);
+            this.ParamCombineBtn.Name = "ParamCombineBtn";
+            this.ParamCombineBtn.Size = new System.Drawing.Size(449, 35);
+            this.ParamCombineBtn.TabIndex = 57;
+            this.ParamCombineBtn.Text = "参数组合";
+            this.ParamCombineBtn.UseVisualStyleBackColor = false;
+            this.ParamCombineBtn.Click += new System.EventHandler(this.ParamCombineBtn_Click);
+            // 
             // TagFloorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 630);
+            this.ClientSize = new System.Drawing.Size(476, 648);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
@@ -587,9 +666,7 @@
         private System.Windows.Forms.Button WriteDatabyExcel;
         private System.Windows.Forms.TextBox LevelTxt;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button Floordetect;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button Floorreappearing;
         private System.Windows.Forms.TextBox textPara1;
         private System.Windows.Forms.Label label14;
@@ -602,6 +679,15 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox RevitConnectParam;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button copyParamBtn;
+        private System.Windows.Forms.Button ParamCombineBtn;
+        private System.Windows.Forms.TextBox DestText;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox ParamtersText;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox IDText;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button SystemIDBtn;
     }
 }
 

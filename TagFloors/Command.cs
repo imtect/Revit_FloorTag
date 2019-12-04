@@ -57,6 +57,10 @@ namespace TagFloors {
         public Dictionary<string, Color> m_paramColor = new Dictionary<string, Color>();
 
         bool m_isShowDialog = false;
+
+        public string m_ElementIDText;
+        public string m_combineParamters;
+        public string m_destParamter;
         #endregion
 
         #region 初始化
@@ -521,6 +525,12 @@ namespace TagFloors {
             m_document.Document.ActiveView.SetElementOverrides(floorId, OverrideGraphicSettings);
         }
 
+        //将修改后的颜色改回去
+        public void ResetOneFloorColor(ElementId floorId) {
+
+        }
+
+
         public void MarkFloorInfo(Document doc, bool isMoreLevel) {
             Autodesk.Revit.DB.View view = doc.ActiveView;
 
@@ -556,16 +566,23 @@ namespace TagFloors {
             string info = string.Empty;
 
             for (int i = 0; i < m_paramCodes.Length; i++) {
-                Parameter param = ele.LookupParameter(m_paramCodes[i]);
-                if (param == null) {
-                    ShowErrorDialog("楼板的共享参数中不存在 \"" + m_paramCodes[i] + "\" 参数");
+
+                if (i != m_paramCodes.Length - 1) {
+                    info += GetOneParameter(ele, m_paramCodes[i]) + "\n";
                 } else {
-                    if (i != m_paramCodes.Length - 1) {
-                        info += param.AsString() + "\n";
-                    } else {
-                        info += param.AsString();
-                    }
+                    info += GetOneParameter(ele, m_paramCodes[i]);
                 }
+
+                //Parameter param = ele.LookupParameter(m_paramCodes[i]);
+                //if (param == null) {
+                //    ShowErrorDialog("楼板的共享参数中不存在 \"" + m_paramCodes[i] + "\" 参数");
+                //} else {
+                //    if (i != m_paramCodes.Length - 1) {
+                //        info += param.AsString() + "\n";
+                //    } else {
+                //        info += param.AsString();
+                //    }
+                //}
             }
             return info;
         }
@@ -742,6 +759,28 @@ namespace TagFloors {
 
         #region Transfer Param
 
+
+        public void CopyParam(Document doc, string param1, string param2) {
+            ElementCategoryFilter elementCategoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Floors);
+            FilteredElementCollector collectors = new FilteredElementCollector(doc);
+            IList<Element> elementLists = collectors.WherePasses(elementCategoryFilter).WhereElementIsNotElementType().ToElements();
+
+            foreach (var item in elementLists) {
+                CopyOneParamToAnother(item, param1, param2);
+                if (m_isNeedBreak)
+                    break;
+            }
+        }
+
+        private void CopyOneParamToAnother(Element ele, string param1, string param2) {
+            string param1Content = GetOneParameter(ele, param1);
+
+            if (!string.IsNullOrEmpty(param1Content)) {
+                SetOneParameter(ele, param2, param1Content);
+            }
+        }
+
+
         public void TransferParam(Document doc, string param1, string param2) {
             ElementCategoryFilter elementCategoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Floors);
             FilteredElementCollector collectors = new FilteredElementCollector(doc);
@@ -786,8 +825,13 @@ namespace TagFloors {
             if (parameter != null) {
                 paramValue = parameter.AsString();
 
-                if (string.IsNullOrEmpty(paramValue))
-                    paramValue = parameter.AsValueString();
+                if (string.IsNullOrEmpty(paramValue)) {
+                    if (parameter.Definition.ParameterType == ParameterType.Area) {
+                        paramValue = (parameter.AsDouble() / 10.7639104f).ToString("F2") + "m²";
+                    } else {
+                        paramValue = parameter.AsValueString();
+                    }
+                }
             } else {
                 TaskDialog.Show("Error", "该元素没有共享参数：" + param);
                 m_isNeedBreak = true;
@@ -811,6 +855,69 @@ namespace TagFloors {
                 m_isNeedBreak = true;
             }
             return succssed;
+        }
+
+        #endregion
+
+        #region GetElementId
+        public void SetElementIdToParamter(string paramterName) {
+            ElementClassFilter instanceFilter = new ElementClassFilter(typeof(FamilyInstance));
+            ElementClassFilter hostFilter = new ElementClassFilter(typeof(HostObject));
+            LogicalOrFilter andFilter = new LogicalOrFilter(instanceFilter, hostFilter);
+
+            FilteredElementCollector collector = new FilteredElementCollector(m_document.Document);
+            collector.WherePasses(andFilter);
+
+            foreach (var item in collector) {
+                Parameter param = item.LookupParameter(paramterName);
+                if (param != null && !param.IsReadOnly) {
+                    bool b = param.Set(item.Id.ToString());
+                    if (!b) param.SetValueString(item.Id.ToString());
+                }
+            }
+        }
+        #endregion
+
+        #region ParamterCombine
+
+        public void CombineParameters() {
+            ElementCategoryFilter elementCategoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Floors);
+            FilteredElementCollector collectors = new FilteredElementCollector(m_document.Document);
+            IList<Element> elementLists = collectors.WherePasses(elementCategoryFilter).WhereElementIsNotElementType().ToElements();
+
+            if (string.IsNullOrEmpty(m_combineParamters) || string.IsNullOrEmpty(m_destParamter))
+                ShowErrorDialog($"要合并的参数或写入的的目标参数为空！");
+
+            string[] paramNames = m_combineParamters.Split(';');
+
+            foreach (var ele in elementLists) {
+                string combinName = string.Empty;
+
+                for (int i = 0; i < paramNames.Length; i++) {
+                    var parameter = ele.LookupParameter(paramNames[i]);
+                    if (parameter == null) ShowErrorDialog($"楼板{ele.Id}没有该\"{paramNames[i]}\"共享参数!");
+                    var paramValue = parameter.AsString();
+                    if (paramValue == null) paramValue = parameter.AsValueString();
+
+                    if (i != paramNames.Length - 1) {
+                        if (paramNames[i] != "楼层")
+                            combinName += paramValue + "-";
+                        else {
+                            if (m_combineParamters.Contains("分区"))
+                                combinName += paramValue;
+                            else
+                                combinName += paramValue + "-";
+                        }
+                    } else {
+                        combinName += paramValue;
+                    }
+                }
+
+                var desParam = ele.LookupParameter(m_destParamter);
+                if (desParam == null) ShowErrorDialog($"楼板{ele.Id}没有该\"{m_destParamter}\"共享参数!");
+                bool b = desParam.Set(combinName);
+                if (!b) desParam.SetValueString(combinName);
+            }
         }
 
         #endregion

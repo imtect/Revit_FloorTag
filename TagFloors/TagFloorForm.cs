@@ -44,6 +44,10 @@ namespace TagFloors
 
             m_instance.m_floorColor = new Autodesk.Revit.DB.Color(128, 128, 128);
             m_instance.m_corridorColor = new Autodesk.Revit.DB.Color(192, 192, 192);
+
+            m_instance.m_ElementIDText = IDText.Text;
+            m_instance.m_combineParamters = ParamtersText.Text;
+            m_instance.m_destParamter = DestText.Text;
         }
 
         private void btn_MarkFloor_Click(object sender, EventArgs e) {
@@ -236,6 +240,36 @@ namespace TagFloors
 
         private void RevitConnectParam_TextChanged(object sender, EventArgs e) {
             m_instance.m_revitConnectParams = RevitConnectParam.Text.ToString();
+        }
+
+        private void copyParamBtn_Click(object sender, EventArgs e) {
+            m_instance.CopyParam(m_instance.m_document.Document, m_param1, m_param2);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void IDText_TextChanged(object sender, EventArgs e) {
+            m_instance.m_ElementIDText = IDText.Text.ToString();
+        }
+
+        private void SystemIDBtn_Click(object sender, EventArgs e) {
+            m_instance.SetElementIdToParamter(m_instance.m_ElementIDText);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void ParamtersText_TextChanged(object sender, EventArgs e) {
+            m_instance.m_combineParamters = ParamtersText.Text.ToString();
+        }
+
+        private void DestText_TextChanged(object sender, EventArgs e) {
+            m_instance.m_destParamter = DestText.Text.ToString();
+        }
+
+        private void ParamCombineBtn_Click(object sender, EventArgs e) {
+            m_instance.CombineParameters();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

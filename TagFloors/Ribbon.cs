@@ -9,28 +9,38 @@ using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Reflection;
+using System.IO;
 
-namespace TagFloors
-{
-    class Ribbon : IExternalApplication
-    {
-        public Result OnShutdown(UIControlledApplication application)
-        {
+namespace TagFloors {
+    class Ribbon : IExternalApplication {
+        public Result OnShutdown(UIControlledApplication application) {
             return Result.Succeeded;
         }
 
-        public Result OnStartup(UIControlledApplication application)
-        {
+        public Result OnStartup(UIControlledApplication application) {
             RibbonPanel panel = application.CreateRibbonPanel("楼板参数");
-            PushButtonData addParameter = new PushButtonData("楼板参数", "楼板参数", @"E:\TagFloors(1)\TagFloors\TagFloors\bin\Debug\TagFloors.dll", "TagFloors.Command");
-            addParameter.LargeImage = new BitmapImage(new Uri(@"E:\TagFloors(1)\TagFloors\TagFloors\addParameter1.jpg"));
 
-           
-            panel.AddItem(addParameter);
+            string assemblyPath = Path.Combine(AssemblyDirectory, "TagFloors.dll");
+            string iconPath = Path.Combine(AssemblyDirectory, "FloorParamater.jpg");
+
+            PushButtonData buttonData = new PushButtonData("楼板参数", "楼板参数", assemblyPath, "TagFloors.Command");
+            buttonData.LargeImage = new BitmapImage(new Uri(iconPath));
+
+            File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Path.txt"), iconPath);
+
+            panel.AddItem(buttonData);
 
             return Result.Succeeded;
         }
 
-
+        public static string AssemblyDirectory {
+            get {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
     }
 }
