@@ -68,6 +68,13 @@ namespace TagFloors {
             TagFloorForm m_tagFloorForm = new TagFloorForm(this);
             m_tagFloorForm.StartPosition = FormStartPosition.CenterParent;
 
+            m_tagFloorForm.onWriteData = () => {
+                //Transaction transaction = new Transaction(m_document.Document, "trans");
+                //transaction.Start();
+                WriteDataIntoRevit(m_document.Document);
+                //transaction.Commit();
+            };
+
             m_application = commandData.Application;
             m_document = m_application.ActiveUIDocument;
 
@@ -340,9 +347,16 @@ namespace TagFloors {
         #region SetDepParameter
 
         public void WriteDataIntoRevit(Document doc) {
-            ElementCategoryFilter elementCategoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Floors);
-            FilteredElementCollector collectors = new FilteredElementCollector(doc);
-            IList<Element> elementLists = collectors.WherePasses(elementCategoryFilter).WhereElementIsNotElementType().ToElements();
+            //ElementCategoryFilter elementCategoryFilter = new ElementCategoryFilter(BuiltInCategory.OST_Floors);
+            //FilteredElementCollector collectors = new FilteredElementCollector(doc);
+            //IList<Element> elementLists = collectors.WherePasses(elementCategoryFilter).WhereElementIsNotElementType().ToElements();
+
+            ElementClassFilter instanceFilter = new ElementClassFilter(typeof(FamilyInstance));
+            ElementClassFilter hostFilter = new ElementClassFilter(typeof(HostObject));
+            LogicalOrFilter andFilter = new LogicalOrFilter(instanceFilter, hostFilter);
+
+            FilteredElementCollector elementLists = new FilteredElementCollector(m_document.Document);
+            elementLists.WherePasses(andFilter);
 
             ParseParam(m_writeParams);
 
@@ -460,7 +474,12 @@ namespace TagFloors {
                             if (m_paramColor.ContainsKey(m_paramCodes[i]) && m_isSettingColor)
                                 SetOneFloorColor(ele.Id, m_paramColor[m_paramCodes[i]]);
                         }
-                        parameter.Set(paramValue[i]);
+                        //SubTransaction subTransaction = new SubTransaction(m_document.Document);
+                        //subTransaction.Start();
+                        bool b = parameter.Set(paramValue[i]);
+                        if (!b)
+                            parameter.SetValueString(paramValue[i]);
+                        //subTransaction.Commit();
                     }
                 } else {
                     SetOneFloorColor(ele.Id, new Color(255, 0, 0));
@@ -650,9 +669,6 @@ namespace TagFloors {
             Excel.Range para1Range;
             Excel.Range para2Range;
             Excel.Range para3Range;
-
-
-
 
             string str1 = para1txt;
             string str2 = para2txt;

@@ -20,17 +20,11 @@ namespace TagFloors {
 
         public Result OnStartup(UIControlledApplication application) {
             RibbonPanel panel = application.CreateRibbonPanel("楼板参数");
-
             string assemblyPath = Path.Combine(AssemblyDirectory, "TagFloors.dll");
             string iconPath = Path.Combine(AssemblyDirectory, "FloorParamater.jpg");
-
             PushButtonData buttonData = new PushButtonData("楼板参数", "楼板参数", assemblyPath, "TagFloors.Command");
             buttonData.LargeImage = new BitmapImage(new Uri(iconPath));
-
-            File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Path.txt"), iconPath);
-
             panel.AddItem(buttonData);
-
             return Result.Succeeded;
         }
 

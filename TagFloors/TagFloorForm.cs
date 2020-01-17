@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,14 +11,16 @@ using System.Windows.Forms;
 
 namespace TagFloors
 {
-    public partial class TagFloorForm : Form
-    {
+    public partial class TagFloorForm : System.Windows.Forms.Form {
         public Command m_instance;
 
         //private bool isSameLevel = false;
 
         private string m_param1;
         private string m_param2;
+
+
+        public Action onWriteData;
 
         public TagFloorForm(Command instance)
         {
@@ -103,7 +106,7 @@ namespace TagFloors
             if (result == DialogResult.OK) {
                 foreach (var item in form.GetParamSettingColor()) {
                     if (!m_instance.m_paramColor.ContainsKey(item.Key)) {
-                        Color dialogColor = item.Value;
+                        System.Drawing.Color dialogColor = item.Value;
                         Autodesk.Revit.DB.Color color = new Autodesk.Revit.DB.Color(dialogColor.R,
                         dialogColor.G, dialogColor.B);
 
@@ -115,7 +118,10 @@ namespace TagFloors
 
 
         private void WriteData_Click(object sender, EventArgs e) {
-            m_instance.WriteDataIntoRevit(m_instance.m_document.Document);
+            //m_instance.WriteDataIntoRevit(m_instance.m_document.Document);
+
+            onWriteData?.Invoke();
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

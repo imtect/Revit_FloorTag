@@ -82,3 +82,16 @@ E:\5_RevitProject\TagFloors20190220\TagFloors(1)\TagFloors\TagFloors\obj\Debug\T
 E:\5_RevitProject\TagFloors20190220\TagFloors(1)\TagFloors\TagFloors\obj\Debug\TagFloors.csproj.CopyComplete
 E:\5_RevitProject\TagFloors20190220\TagFloors(1)\TagFloors\TagFloors\obj\Debug\TagFloors.dll
 E:\5_RevitProject\TagFloors20190220\TagFloors(1)\TagFloors\TagFloors\obj\Debug\TagFloors.pdb
+E:\5_RevitProject\TagFloors\TagFloors\bin\Debug\TagFloors.dll.config
+E:\5_RevitProject\TagFloors\TagFloors\bin\Debug\TagFloors.dll
+E:\5_RevitProject\TagFloors\TagFloors\bin\Debug\TagFloors.pdb
+E:\5_RevitProject\TagFloors\TagFloors\bin\Debug\NewtonSoft.Json.dll
+E:\5_RevitProject\TagFloors\TagFloors\bin\Debug\stdole.dll
+E:\5_RevitProject\TagFloors\TagFloors\obj\Debug\TagFloors.SettingForm.resources
+E:\5_RevitProject\TagFloors\TagFloors\obj\Debug\TagFloors.TagFloorForm.resources
+E:\5_RevitProject\TagFloors\TagFloors\obj\Debug\TagFloors.Properties.Resources.resources
+E:\5_RevitProject\TagFloors\TagFloors\obj\Debug\TagFloors.csproj.GenerateResource.cache
+E:\5_RevitProject\TagFloors\TagFloors\obj\Debug\TagFloors.csproj.CoreCompileInputs.cache
+E:\5_RevitProject\TagFloors\TagFloors\obj\Debug\TagFloors.csproj.CopyComplete
+E:\5_RevitProject\TagFloors\TagFloors\obj\Debug\TagFloors.dll
+E:\5_RevitProject\TagFloors\TagFloors\obj\Debug\TagFloors.pdb
